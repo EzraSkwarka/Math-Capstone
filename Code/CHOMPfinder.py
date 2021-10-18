@@ -1,3 +1,7 @@
+import os
+dirname = os.path.dirname(__file__)
+
+
 CHOMP = {
     "[0]": {"nim": 0, "moves": []},
     "[1]": {"nim": 0, "moves": []},
@@ -98,7 +102,8 @@ def get_MEX(MEXlist):
     return mex
 
 def clean_print(dict):
-    f = open("C:\\Users\Ezra\Box\Summer Research 2020\Ezra's Stuff\Clean_print.txt", "w")
+    filename = os.path.join(dirname, "Clean_print.txt")
+    f = open(filename, "w")
     for k, v in dict.items():
         # print(k, v)
         f.write("Key: ")
@@ -109,7 +114,8 @@ def clean_print(dict):
         f.write("\n")
 
 def zero_print(dict):
-    f = open("C:\\Users\Ezra\Box\Summer Research 2020\Ezra's Stuff\zero_print.txt", "w")
+    filename = os.path.join(dirname, "zero_print.txt")
+    f = open(filename, "w")
     for k, v in dict.items():
         if v["nim"] == 0:
             CONDENSED_ZEROS.append(print_condensed(get_key(k)))
@@ -117,7 +123,8 @@ def zero_print(dict):
             f.write("\n")
 
 def zero_print_no_twos(dict):
-    f = open("C:\\Users\Ezra\Box\Summer Research 2020\Ezra's Stuff\zero_print_no_twos.txt", "w")
+    filename = os.path.join(dirname, "zero_print_no_twos.txt")
+    f = open(filename, "w")
     for k, v in dict.items():
         if v["nim"] == 0:
             key = get_key(k)
@@ -136,7 +143,8 @@ def print_condensed(listele):
     return holding
 
 def write_condensed(CONDENSED_ZEROS):
-    f = open("C:\\Users\Ezra\Box\Summer Research 2020\Ezra's Stuff\condensed_list_size.txt", "w")
+    filename = os.path.join(dirname, "condensed_list_size.txt")
+    f = open(filename, "w")
     CONDENSED_ZEROS = sorted(CONDENSED_ZEROS, key = lambda x: (x[0] + x[1] + x[2]))
     # CONDENSED_ZEROS = sorted(CONDENSED_ZEROS, key = lambda x: ( x[2], x[0], x[1]))
     for i in CONDENSED_ZEROS:
@@ -159,7 +167,7 @@ def write_condensed(CONDENSED_ZEROS):
 
 def main() :
     seed = []
-    for i in range(20):
+    for i in range(30):
         seed.append(3)
     # for i in range(10):
     #     seed.append(1)
