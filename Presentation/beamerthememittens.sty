@@ -1,0 +1,234 @@
+\mode<presentation>
+
+\RequirePackage{tikz}
+\RequirePackage{babel}
+
+\newcommand{\s}{\vspace{1em}}
+
+
+% Title slide shortcut (to remove page numbering etc.)
+\newcommand{\titleslide}{
+  {
+    \setbeamertemplate{footline}{}
+    \begin{frame}[label=intro,noframenumbering]
+    \titlepage
+    \end{frame}
+  }
+}
+
+% Whether or not to include section & subsection names at the tops of slides
+\newif\ifsectionnames
+
+% Whether or not to include new section slides
+\newif\ifsectionslides
+
+% Typography for sans-serif: Carlito
+\RequirePackage[sfdefault,lf]{carlito}
+%% The 'lf' option for lining figures
+%% The 'sfdefault' option to make the base font sans serif
+\renewcommand*\oldstylenums[1]{\carlitoOsF #1}
+\newcommand{\sansstyle}{\carlitoOsF}
+
+% Typography for monospace: IBM Plex
+\RequirePackage[usefilenames,% Important for XeLaTeX
+% TTstyle=Light, % Uncomment for light monospaced font
+]{plex-otf} %
+  
+% Typography default (serif): Charis SIL
+\RequirePackage{CharisSIL}
+\usefonttheme{professionalfonts}
+\usefonttheme{serif}
+
+% Math mode
+\RequirePackage{unicode-math}
+\setmathfont{TeX Gyre Termes Math}
+
+% Slide numbers
+\setbeamertemplate{footline}[text line]{%
+\parbox{0.8\linewidth}{\color{white}
+    \small\vspace*{-14pt}\sansstyle\insertshorttitle~(\insertshortauthor)
+  }
+  \hfill%
+  \parbox{0.15\linewidth}{\color{white}
+    \small\vspace*{-14pt}\sansstyle\raggedleft\insertframenumber/\inserttotalframenumber
+}
+}
+
+% Sizing
+\setbeamerfont{title}{size=\Huge}
+
+% Settings
+\setbeamercolor*{title page header}{fg=white}
+\setbeamercolor*{author}{fg=white}
+\setbeamercolor*{date}{fg=white}
+
+
+% Block theming
+\setbeamercolor*{block title}{fg=white,bg=slideprimary}
+\setbeamercolor*{block title alerted}{fg=white,bg=slideprimary}
+\setbeamercolor*{block title example}{fg=white,bg=slideprimary}
+
+\setbeamercolor*{block body}{fg=black,bg=black!10}
+\setbeamercolor*{block body alerted}{fg=black,bg=black!10}
+\setbeamercolor*{block body example}{fg=black,bg=black!10}
+
+\setbeamertemplate{navigation symbols}{}
+
+\defbeamertemplate*{frametitle}{texsx}[1][]
+{
+\vskip1cm%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=1.2cm]{frametitle} 
+  \begin{tikzpicture}
+%   No fun slant:
+%   \fill[slideprimary] (2.15,0) rectangle(\the\paperwidth,1.2);
+  \useasboundingbox[fill=white](0,0) rectangle(\the\paperwidth,1.2);
+
+%   If necessary, put section name at the top of the slide
+  \ifx\secname\@empty%
+  \def\titleoffset{0}%
+  \else%
+  \ifsectionnames
+  \def\titleoffset{-0.2}%
+  \node[anchor=west] at (0, 1.85) {\bf\footnotesize\color{slideprimary}\sansstyle\secname%
+    \ifx\subsecname\@empty%
+    \else%
+      \ > \subsecname
+    \fi
+  };
+  \else
+  \def\titleoffset{0}%
+  \fi
+  \fi
+
+  \pgfmathsetlengthmacro{\outslant}{\the\paperwidth - 30}
+
+  \fill[slidesecondary] (0,{0.5 + \titleoffset}) rectangle(2.05,{1.7 + \titleoffset});
+  \fill[slideprimary] (2.15,{0.5 + \titleoffset}) -- (\outslant, {0.5 + \titleoffset}) -- (\the\paperwidth, {1.7 + \titleoffset}) -- (2.15, {1.7 + \titleoffset}) -- cycle;
+
+   \ifx\insertframesubtitle\@empty%
+      {\node[anchor=west, white,font=\large] at (2.4,{1.11 + \titleoffset}){\insertframetitle};}
+      \else%
+      {\node[anchor= west, white,font=\large] at (2.4,{1.31 + \titleoffset}){\insertframetitle};%
+%      To get rid of sans font being used in subtitles, delete "\sansstyle" in the following line
+       \node[anchor= west, white,font=\small] at (2.4,{0.81 + \titleoffset}){\sansstyle \insertframesubtitle};}%
+      \fi
+  \end{tikzpicture}
+  \end{beamercolorbox}
+\vskip-1.1cm%
+}
+
+\newcommand{\colorschemered}{
+    \definecolor{accentbright}{HTML}{EA8445}
+    % Color to be used for small standout elements as well as the background of the title page
+    \colorlet{accent}{accentbright!90!black}
+    % A darker color with more contrast to be used for text elements that need to match the accent color
+    \colorlet{accenttext}{accent!85!black}
+    % The two combination colors that appear on every slide
+    \definecolor{slidesecondary}{HTML}{5d1601}
+    \definecolor{slideprimary}{HTML}{b4321e}
+}
+
+\newcommand{\colorschemeblue}{
+    \definecolor{accent}{HTML}{9fb96a}
+    \colorlet{accenttext}{accent!75!black}
+    \definecolor{slidesecondary}{HTML}{102694}
+    \definecolor{slideprimary}{HTML}{1172c8}
+}
+
+\newcommand{\colorschemegreen}{
+    \definecolor{accent}{HTML}{6AB9AD}
+    \colorlet{accenttext}{accent!80!black}
+    \definecolor{slidesecondary}{HTML}{20611A}
+    \definecolor{slideprimary}{HTML}{34A837}
+}
+
+\newcommand{\colorschemebrown}{
+    \definecolor{accent}{HTML}{B96A6A}
+    \colorlet{accenttext}{accent!80!black}
+    \definecolor{slidesecondary}{HTML}{674614}
+    \definecolor{slideprimary}{HTML}{A88134}
+}
+
+\newcommand{\colorschemepurple}{
+    \definecolor{accent}{HTML}{B9976A}
+    \colorlet{accenttext}{accent!80!black}
+    \definecolor{slidesecondary}{HTML}{380D6E}
+    \definecolor{slideprimary}{HTML}{75339E}
+}
+
+\setbeamercolor*{enumerate item}{fg=accenttext}
+\setbeamercolor*{enumerate subitem}{fg=accenttext}
+\setbeamercolor*{enumerate subsubitem}{fg=accenttext}
+
+\setbeamercolor{itemize item}{fg=accent}
+\setbeamercolor{itemize subitem}{fg=accent}
+\setbeamercolor{itemize subsubitem}{fg=accent}
+
+\setbeamertemplate{background}{
+    \begin{tikzpicture}
+  \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+  \fill[color=accent] (0,2) rectangle (\the\paperwidth,\the\paperheight);
+  \fill[color=slidesecondary] (0,0) rectangle(2.95,1.9);
+  \fill[color=slideprimary] (3.05,0) rectangle(\the\paperwidth,1.9);
+  \ifnum\thepage>1\relax%
+   \fill[white,opacity=1] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+   \fi
+   % footer bit
+   \ifnum\thepage>1\relax%
+   \fill[slideprimary] (0, 0.6) rectangle (\the\paperwidth, 0);
+   \fi
+  \end{tikzpicture}
+}
+
+% Title page
+\defbeamertemplate*{title page}{texsx}[1][]
+{ 
+\begin{tikzpicture}[overlay]
+\node[anchor=center, text width=17cm, align=center] at (7cm, -1.3cm) {%
+    \usebeamerfont{title}\begin{hyphenrules}{nohyphenation}\textbf{\color{white}\inserttitle}\end{hyphenrules}\par%
+};
+\node[anchor=west, white] at (2.5cm, -3.9cm) {%
+    \usebeamerfont{author}\insertauthor%
+};
+\node[anchor=west, white] at (2.5cm, -4.5cm) {%
+    \usebeamerfont{author}\insertdate%
+};
+\end{tikzpicture}
+}
+
+
+\AtBeginSection[]{
+\ifsectionslides
+  \begin{frame}
+  \begin{tikzpicture}[overlay]
+  \draw[draw=none, fill=slideprimary] (1.2, -1) rectangle (\the\paperwidth, 0.5);
+  \node[anchor= west, white,font=\Large] at (1.4, -0.25) {\color{white}\insertsectionhead};
+  \draw[draw=none, fill=slidesecondary] (-1, -1) -- (1.1, -1) -- (1.1, 0.5) -- cycle;
+  \end{tikzpicture}
+  \end{frame}
+\fi
+}
+
+\RequirePackage{listings}
+
+% Define a nice lst style
+\lstdefinestyle{themestyle}{
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{slidesecondary},
+  commentstyle=\itshape\color{accenttext},
+  identifierstyle=\color{slideprimary},
+  stringstyle=\color{accenttext},
+  framexleftmargin=25pt,
+  framexrightmargin=25pt,
+  framextopmargin=6pt,
+  framexbottommargin=6pt, 
+  frame=tb,
+  backgroundcolor = \color{black!8}
+}
+\lstset{escapechar=@,style=themestyle}
+
+\RequirePackage{microtype}
+\RequireXeTeX{}
+
+\mode<all>
